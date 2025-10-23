@@ -25,27 +25,30 @@
             android:text="CLEAR ALL" />
     </LinearLayout>
 
+    <!-- 让列表占据中间区域并可滚动：0dp + weight=1 -->
     <ListView
         android:id="@+id/city_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:choiceMode="singleChoice"
-        android:listSelector="#999999">
+        android:listSelector="#999999"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp" />
 
-    </ListView>
-
+    <!-- 底部输入栏固定在底部：height=wrap_content（保留原 id 和默认 invisible） -->
     <LinearLayout
         android:id="@+id/field_nameEntry"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="bottom"
-        android:visibility="invisible">
+        android:visibility="invisible"
+        android:padding="8dp">
 
         <EditText
             android:id="@+id/editText_name"
             style="@style/Widget.AppCompat.EditText"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
@@ -57,9 +60,8 @@
             android:id="@+id/button_confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="CONFIRM" />
-
     </LinearLayout>
 
 </LinearLayout>
+
