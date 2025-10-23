@@ -30,37 +30,34 @@ public class MainActivityTest {
     public ActivityScenarioRule<MainActivity> scenario =
             new ActivityScenarioRule<>(MainActivity.class);
 
+    private void addCity(String name) {
+        onView(withId(R.id.button_add)).perform(click());
+        onView(withId(R.id.editText_name)).perform(typeText(name), closeSoftKeyboard());
+        onView(withId(R.id.button_confirm)).perform(click());
+    }
+
+    private void clickCityByText(String name) {
+        onView(withText(name)).perform(click());
+    }
 
     @Test
     public void testAddCity() {
-        onView(withId(R.id.button_add)).perform(click());
-        onView(withId(R.id.editText_name)).perform(typeText("Edmonton"), closeSoftKeyboard());
-        onView(withId(R.id.button_confirm)).perform(click());
+        addCity("Edmonton");
         onView(withText("Edmonton")).check(matches(isDisplayed()));
     }
 
     @Test
     public void testClearCity() {
-        onView(withId(R.id.button_add)).perform(click());
-        onView(withId(R.id.editText_name)).perform(typeText("Edmonton"), closeSoftKeyboard());
-        onView(withId(R.id.button_confirm)).perform(click());
-
-        onView(withId(R.id.button_add)).perform(click());
-        onView(withId(R.id.editText_name)).perform(typeText("Vancouver"), closeSoftKeyboard());
-        onView(withId(R.id.button_confirm)).perform(click());
-
+        addCity("Edmonton");
+        addCity("Vancouver");
         onView(withId(R.id.button_clear)).perform(click());
-
         onView(withText("Edmonton")).check(doesNotExist());
         onView(withText("Vancouver")).check(doesNotExist());
     }
 
     @Test
     public void testListView() {
-        onView(withId(R.id.button_add)).perform(click());
-        onView(withId(R.id.editText_name)).perform(typeText("Edmonton"), closeSoftKeyboard());
-        onView(withId(R.id.button_confirm)).perform(click());
-
+        addCity("Edmonton");
         onData(is(instanceOf(String.class)))
                 .inAdapterView(withId(R.id.city_list))
                 .atPosition(0)
@@ -69,41 +66,26 @@ public class MainActivityTest {
 
     @Test
     public void testActivitySwitched() {
-        onView(withId(R.id.button_add)).perform(click());
-        onView(withId(R.id.editText_name)).perform(typeText("Edmonton"), closeSoftKeyboard());
-        onView(withId(R.id.button_confirm)).perform(click());
-
-        onData(is(instanceOf(String.class)))
-                .inAdapterView(withId(R.id.city_list))
-                .atPosition(0)
-                .perform(click());
-
+        addCity("Edmonton");
+        clickCityByText("Edmonton");
         onView(withId(R.id.text_city_name)).check(matches(isDisplayed()));
     }
 
     @Test
     public void testCityNameIsConsistent() {
-        onView(withId(R.id.button_add)).perform(click());
-        onView(withId(R.id.editText_name)).perform(typeText("Vancouver"), closeSoftKeyboard());
-        onView(withId(R.id.button_confirm)).perform(click());
-
-        onView(withText("Vancouver")).check(matches(isDisplayed()));
-        onView(withText("Vancouver")).perform(click());
-
-        onView(withId(R.id.text_city_name)).check(matches(withText("Vancouver")));
+        String city = "Vancouver";
+        addCity(city);
+        onView(withText(city)).check(matches(isDisplayed()));
+        clickCityByText(city);
+        onView(withId(R.id.text_city_name)).check(matches(withText(city)));
     }
 
     @Test
     public void testBackButton() {
-        onView(withId(R.id.button_add)).perform(click());
-        onView(withId(R.id.editText_name)).perform(typeText("Toronto"), closeSoftKeyboard());
-        onView(withId(R.id.button_confirm)).perform(click());
-
-        onData(is(instanceOf(String.class)))
+        addCity("Toronto");
+        onData(is("Toronto"))
                 .inAdapterView(withId(R.id.city_list))
-                .atPosition(0)
                 .perform(click());
-
         onView(withId(R.id.button_back)).perform(click());
         onView(withId(R.id.button_add)).check(matches(isDisplayed()));
     }

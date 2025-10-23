@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
-    // Declare the variables so that you will be able to reference it later.
     ListView cityList;
     EditText newName;
     LinearLayout nameField;
