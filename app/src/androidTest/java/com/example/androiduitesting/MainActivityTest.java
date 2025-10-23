@@ -30,7 +30,6 @@ public class MainActivityTest {
     public ActivityScenarioRule<MainActivity> scenario =
             new ActivityScenarioRule<>(MainActivity.class);
 
-    // ---------- Base tests ----------
 
     @Test
     public void testAddCity() {
@@ -68,8 +67,6 @@ public class MainActivityTest {
                 .check(matches(withText("Edmonton")));
     }
 
-    // ---------- ShowActivity tests ----------
-
     @Test
     public void testActivitySwitched() {
         onView(withId(R.id.button_add)).perform(click());
@@ -90,7 +87,6 @@ public class MainActivityTest {
         onView(withId(R.id.editText_name)).perform(typeText("Vancouver"), closeSoftKeyboard());
         onView(withId(R.id.button_confirm)).perform(click());
 
-        // Ensure the row is visible, then click it by text (more robust than clicking position)
         onView(withText("Vancouver")).check(matches(isDisplayed()));
         onView(withText("Vancouver")).perform(click());
 
